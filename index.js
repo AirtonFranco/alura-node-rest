@@ -4,13 +4,19 @@
 
 const express = require('express')
 const app = express()
- 
+
+//chamando o consign que acabamos de instalar
+const consign = require('consign')
+
+//incluindo tudo que esta em controllers no nosso app
+consign()
+    .include('controllers')
+    .into(app)
+
 app.get('/', (req, res) => {
   res.send('Olá mundo')
 })
 
-app.get('/atendimentos', (req, res) => {
-    res.send('Você esta na rota de atendimentos, vc está fazendo um GET')
-  })
+
  
 app.listen(8080, () => {console.log("Servidor rodando na porta 8080")})
