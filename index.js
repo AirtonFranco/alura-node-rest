@@ -2,21 +2,19 @@
 //2 - npm install express (cria o node-modules já com o express instalado)
 //3 - configurar o servidor no index.js
 
-const express = require('express')
-const app = express()
+const customExpress = require('./config/customExpress')
+const conexao = require('./infra/conexao')
+const Tabelas = require('./infra/tabelas')
 
-//chamando o consign que acabamos de instalar
-const consign = require('consign')
+conexao.connect(erro => {
+    if(erro) {
+        console.log(erro)
+    } else {
+        const app = customExpress()
+        Tabelas.init(conexao)
 
-//incluindo tudo que esta em controllers no nosso app
-consign()
-    .include('controllers')
-    .into(app)
-
-app.get('/', (req, res) => {
-  res.send('Olá mundo')
+app.listen(8080, () => {console.log("Servidor rodando na porta 8080")})
+        console.log("Conectado com sucesso")
+    }
 })
 
-
- 
-app.listen(8080, () => {console.log("Servidor rodando na porta 8080")})
